@@ -1,8 +1,25 @@
 import React from "react";
-import {Link, NavLink} from "react-router-dom";
+import {Link, NavLink, useNavigate} from "react-router-dom";
+import axios from "axios";
 
 
-const NavBar = () => {
+const NavBar = (props) => {
+
+    const {currentUser, setCurrentUser} = props;
+    const navigate = useNavigate;
+
+    const logoutUser = () => {
+        axios.post("http://localhost:8000/api/logout", {withCredentials: true})
+            .then((res) => {
+                console.log("successful logout", res);
+                setCurrentUser(null)
+                navigate("/recipes")
+            })
+            .catch((err) => {
+                console.log("error logging out", err)
+            })
+    }
+
     return (
         <nav className="navbar navbar-expand-lg bg-body-secondary">
             <div className="container-fluid w-75">
@@ -19,10 +36,10 @@ const NavBar = () => {
                             <NavLink to="/recipes/create" className="nav-link">Add new recipe</NavLink>
                         </li>
                         <li className="navbar-item">
-                            <NavLink to="/recipes/register" className="nav-link">Register</NavLink>
+                            <NavLink to="/loginReg" className="nav-link">Login</NavLink>
                         </li>
                         <li className="navbar-item">
-                            <NavLink to="/recipes/login" className="nav-link">Login</NavLink>
+                            <button onClick={logoutUser}>Logout</button>
                         </li>
                     </ul>
                 </div>
