@@ -23,7 +23,7 @@ const DisplayAll = () => {
             {
                 allRecipes.map((recipe) => (
                     <div className="m-4">
-                        <img src={recipe.boxArt} />
+                        <img src={recipe.boxArt} className="img-thumbnail" />
                         <Link to={`/recipes/${recipe._id}`} className="d-block">{recipe.title}</Link>
                     </div>
                     
