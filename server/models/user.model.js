@@ -10,7 +10,8 @@ const UserSchema = new mongoose.Schema({
     },
     email: {
         type:String,
-        require: [true, "Email is required"]
+        require: [true, "Email is required"],
+        unique: true
     },
     password: {
         type:String,
@@ -19,7 +20,13 @@ const UserSchema = new mongoose.Schema({
     },
     profilePic :{
         type: String
-    }
+    },
+    
+    recipes: [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'User'
+    }]
+
 }, {timestamps:true})
 
 UserSchema.virtual('confirmPassword')

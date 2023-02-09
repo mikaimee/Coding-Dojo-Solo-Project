@@ -24,6 +24,9 @@ const RecipeSchema = new mongoose.Schema({
     boxArt: {
         type: String, 
         required: [true, "A picture is required"]
+    },
+    creator : {
+        type: String
     }
 }, {timestamps: true})
 

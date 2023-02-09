@@ -1,8 +1,11 @@
 const Recipe = require("../models/recipe.model")
+jwt = require('jsonwebtoken')
+const SECRET = process.env.SECRET_KEY
 
 module.exports = {
     createRecipe: (req, res) => {
-        Recipe.create(req.body)
+        const user = jwt.verify(req.cookies.userToken, SECRET)
+        Recipe.create({...req.body, creator: user._id})
             .then((newRecipe) => {
                 res.json({newRecipe})
             })
@@ -32,6 +35,19 @@ module.exports = {
             })
             .catch((err) => {
                 console.log(err);
+                res.status(400).json(err);
+            })
+    },
+
+    getRecipeByUser: (req, res) => {
+        const user = jwt.verify(req.cookies.userToken, SECRET)
+        Recipe.find({creator: user._id})
+            .then((recipeFromUser) => {
+                console.log(recipeFromUser)
+                res.json(recipeFromUser)
+            })
+            .catch((err) => {
+                console.log(err)
                 res.status(400).json(err);
             })
     },

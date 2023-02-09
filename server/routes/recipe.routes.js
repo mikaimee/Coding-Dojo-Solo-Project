@@ -7,4 +7,5 @@ module.exports = (app) => {
     app.get("/api/recipes/:id", RecipeController.getOneRecipe);
     app.put("/api/recipes/:id", RecipeController.updateRecipe);
     app.delete("/api/recipes/:id", RecipeController.deleteRecipe);
+    app.get("/api/getRecipeByUser", RecipeController.getRecipeByUser);
 }

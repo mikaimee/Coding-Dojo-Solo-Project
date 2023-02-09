@@ -2,7 +2,7 @@ import React, {useState,useEffect}from "react";
 import axios from "axios";
 import {useNavigate} from "react-router-dom";
 
-const CreateRecipe = () => {
+const CreateRecipe = (props) => {
     const [title, setTitle] = useState('')
     const [servings, setServings] = useState('')
     const [timeTaken, setTimeTaken] = useState('')
@@ -10,9 +10,25 @@ const CreateRecipe = () => {
     const [directions, setDirections] = useState('')
     const [boxArt, setBoxArt] = useState('')
 
+    const {currentUser, setCurrentUser} = props;
+
     const [errors, setErrors] = useState({})
 
     const navigate = useNavigate()
+
+    useEffect(() => {
+        axios.get("http://localhost8000/api/currentUser", {withCredentials: true})
+            .then((res) => {
+                console.log(res.data)
+                setCurrentUser({
+                    _id: res.data._id,
+                    username: res.data.username,
+                })
+            })
+            .catch((err) => {
+                console.log("logged in user fetch error", err)
+            })
+    }, [])
 
     const submitHandler = (e) => {
         e.preventDefault()
@@ -23,15 +39,17 @@ const CreateRecipe = () => {
             ingredients,
             directions,
             boxArt
-        }).then((res) => {
-            console.log(res)
-            console.log("catch from back-end")
-            navigate("/recipes")
-        }).catch((err) => {
-            console.log(err)
-            console.log("error from front-end")
-            setErrors(err.response.data.errors);
+        }, {withCredentials: true})
+            .then((res) => {
+                console.log(res)
+                console.log("catch from back-end")
+                navigate("/recipes")
         })
+            .catch((err) => {
+                console.log(err)
+                console.log("error from front-end")
+                setErrors(err.response.data.errors);
+            })
     }
 
     return(

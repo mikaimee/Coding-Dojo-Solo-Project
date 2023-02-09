@@ -8,6 +8,7 @@ import OneRecipe from './components/OneRecpe';
 import EditRecipe from './components/EditRecipe';
 import NavBar from './components/NavBar';
 import LogReg from './components/LogReg';
+import ProfilePage from './components/ProfilePage';
 
 function App() {
 
@@ -16,13 +17,14 @@ function App() {
   return (
     <div className="App">
       <BrowserRouter>
-      <NavBar currentUser={currentUser} setCurrentUser={setCurrentUser}/>
+      <NavBar />
         <Routes>
           <Route path='/loginReg' element={<LogReg currentUser={currentUser} setCurrentUser={setCurrentUser}/>} />
           <Route path='/recipes' element={<DisplayAll/>} />
           <Route path='/recipes/create' element={<CreateRecipe />} />
           <Route path="/recipes/:id" element={<OneRecipe/>} />
           <Route path="/recipes/:id/edit" element={< EditRecipe/>} />
+          <Route path="/recipes/myPage" element={<ProfilePage currentUser={currentUser} setCurrentUser={setCurrentUser}/>} />
         </Routes>
       </BrowserRouter>
     </div>
