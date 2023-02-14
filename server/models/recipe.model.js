@@ -1,5 +1,41 @@
 const mongoose = require("mongoose")
 
+const IngredientsSchema = new mongoose.Schema({
+    name: {
+        type: String
+    },
+    quantity: {
+        type: Number
+    },
+    typeOfQuantity: {
+        type: String,
+        enum: [
+            'Cups',
+            'Ounces',
+            'Table Spoons',
+            'Tea Spoons',
+            'Pounds',
+            'milligrams',
+            'grams',
+            'kilograms',
+            'millilitres',
+            'litres'
+        ]
+    }
+})
+
+const DirectionsSchema = new mongoose.Schema({
+    directions: {
+        type: String,
+        required: true
+    },
+    pictureGuide: {
+        type:String,
+        required: false
+    }
+})
+
+
 const RecipeSchema = new mongoose.Schema({
     title: {
         type: String,
@@ -14,11 +50,11 @@ const RecipeSchema = new mongoose.Schema({
         required: [true, "time is required"]
     },
     ingredients: {
-        type: String, 
+        type: [IngredientsSchema], 
         required: [true, "ingredients are required"]
     },
     directions: {
-        type: String, 
+        type: [DirectionsSchema], 
         required: [true, "directions are required"]
     },
     boxArt: {
@@ -27,6 +63,9 @@ const RecipeSchema = new mongoose.Schema({
     },
     creator : {
         type: String
+    },
+    likes : {
+        type: [String]
     }
 }, {timestamps: true})
 

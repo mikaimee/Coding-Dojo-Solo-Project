@@ -6,8 +6,8 @@ const CreateRecipe = (props) => {
     const [title, setTitle] = useState('')
     const [servings, setServings] = useState('')
     const [timeTaken, setTimeTaken] = useState('')
-    const [ingredients, setIngredients] = useState('')
-    const [directions, setDirections] = useState('')
+    const [ingredients, setIngredients] = useState([{name: "", quantity: "", typeOfQuantity:""}])
+    const [directions, setDirections] = useState([{direction:"", pictureGuide:""}])
     const [boxArt, setBoxArt] = useState('')
 
     const {currentUser, setCurrentUser} = props;
@@ -38,7 +38,8 @@ const CreateRecipe = (props) => {
             timeTaken,
             ingredients,
             directions,
-            boxArt
+            boxArt,
+            creator: currentUser._id
         }, {withCredentials: true})
             .then((res) => {
                 console.log(res)
@@ -50,6 +51,16 @@ const CreateRecipe = (props) => {
                 console.log("error from front-end")
                 setErrors(err.response.data.errors);
             })
+    }
+
+    const handleIngredients = (i, e) =>{
+        let newIngredientsValues = [...ingredients];
+        newIngredientsValues[i][e.target.name] = e.target.value;
+        setIngredients(newIngredientsValues)
+    }
+
+    const addIngredientField = () => {
+        setIngredients([...ingredients, {name: "", quantity: "", typeOfQuantity: ""}])
     }
 
     return(
@@ -73,6 +84,14 @@ const CreateRecipe = (props) => {
                 </div>
                 <div className="d-grid gap-2 col-5 mx-auto m-2">
                     <label className="form-label">Ingredients: </label>
+                    {ingredients.map((element, index) => {
+                        <div key={index}>
+                            <div>
+                                <input type="text" name="ingredient" value={element.name || ""} onChange={(e) => handleIngredients(index, e)} />
+                                <input type="number" name="quantity" value={element.quantity || ""} onChange={(e) => handleIngredients(index, e)}/>
+                            </div>
+                        </div>
+                    })}
                     <input className="form-control border-primary" type="text" onChange={(e) => setIngredients(e.target.value)} />
                     {errors.ingredients ? <span>{errors.ingredients.message}</span> : null}
                 </div>

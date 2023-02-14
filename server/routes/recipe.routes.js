@@ -8,4 +8,6 @@ module.exports = (app) => {
     app.put("/api/recipes/:id", RecipeController.updateRecipe);
     app.delete("/api/recipes/:id", RecipeController.deleteRecipe);
     app.get("/api/getRecipeByUser", RecipeController.getRecipeByUser);
+    app.put("/api/recipes/liked/:id", RecipeController.likeRecipe);
+    app.put("/api/recipes/unliked/:id", RecipeController.unlikeRecipe);
 }

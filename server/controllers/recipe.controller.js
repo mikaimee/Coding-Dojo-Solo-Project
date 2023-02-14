@@ -77,5 +77,32 @@ module.exports = {
                 console.log(err);
                 res.status(400).json(err);
             })
+    },
+
+    likeRecipe: (req, res) => {
+        Recipe.findOneAndUpdate({_id: req.params.id}, 
+            req.body, 
+            {new:true, runValidators: true})
+            .then((likeRecipe) => {
+                res.json(likeRecipe)
+            })
+            .catch((err) => {
+                console.log(err)
+                res.status(400).json(err)
+            })
+    },
+
+    unlikeRecipe: (req, res) => {
+        Recipe.findOneAndUpdate({_id: req.params.id}, 
+            req.body, 
+            {new:true, runValidators: true})
+            .then((unlikeRecipe) => {
+                console.log(unlikeRecipe)
+                res.json(unlikeRecipe)
+            })
+            .catch((err) => {
+                console.log(err)
+                res.status(400).json(err)
+            })
     }
 };
